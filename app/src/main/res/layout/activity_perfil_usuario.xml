@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.PerfilUsuarioActivity">
+
+    <TextView
+        android:id="@+id/perfil_usuario_nome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="Nome" />
+
+    <TextView
+        android:id="@+id/perfil_usuario_usuario_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/perfil_usuario_nome"
+        app:layout_constraintStart_toStartOf="@+id/perfil_usuario_nome"
+        app:layout_constraintTop_toBottomOf="@+id/perfil_usuario_nome"
+        tools:text="Usuário" />
+
+    <Button
+        android:id="@+id/perfil_usuario_botao_sair"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@color/design_default_color_error"
+        android:textStyle="bold"
+        android:text="Sair do app"
+        app:icon="@drawable/ic_action_sair_do_app"
+        app:layout_constraintEnd_toEndOf="@+id/perfil_usuario_usuario_id"
+        app:layout_constraintStart_toStartOf="@+id/perfil_usuario_usuario_id"
+        app:layout_constraintTop_toBottomOf="@+id/perfil_usuario_usuario_id" />
+</androidx.constraintlayout.widget.ConstraintLayout>

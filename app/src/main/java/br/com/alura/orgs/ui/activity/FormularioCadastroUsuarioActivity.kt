@@ -2,6 +2,7 @@ package br.com.alura.orgs.ui.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import br.com.alura.orgs.databinding.ActivityFormularioCadastroUsuarioBinding
@@ -9,6 +10,7 @@ import br.com.alura.orgs.model.Usuario
 import br.com.alura.orgs.database.AppDatabase
 import kotlinx.coroutines.launch
 import br.com.alura.orgs.extensions.toast
+import kotlinx.coroutines.flow.firstOrNull
 
 class FormularioCadastroUsuarioActivity : AppCompatActivity() {
 
