@@ -2,12 +2,16 @@ package br.com.alura.orgs.ui.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
 import br.com.alura.orgs.database.AppDatabase
 import br.com.alura.orgs.database.dao.ProdutoDao
 import br.com.alura.orgs.databinding.ActivityFormularioProdutoBinding
 import br.com.alura.orgs.extensions.tentaCarregarImagem
+import br.com.alura.orgs.extensions.toast
+import br.com.alura.orgs.extensions.vaiPara
 import br.com.alura.orgs.model.Produto
 import br.com.alura.orgs.preferences.dataStore
 import br.com.alura.orgs.preferences.usuarioLogadoPreferences
@@ -33,6 +37,7 @@ class FormularioProdutoActivity : UsuarioBaseActivity() {
     private val usuarioDao by lazy {
         AppDatabase.instancia(this).usuarioDao()
     }
+    private var visibilidade = View.GONE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,15 +69,24 @@ class FormularioProdutoActivity : UsuarioBaseActivity() {
     }
 
     private fun tentaBuscarProduto() {
+
         lifecycleScope.launch {
             produtoDao.buscaPorId(produtoId).collect {
                 it?.let { produtoEncontrado ->
-                    title = "Alterar produto"
-                    preencheCampos(produtoEncontrado)
+                    if (produtoEncontrado.usuarioId != null) {
+                        title = "Alterar produto"
+                        visibilidade = View.GONE
+                        preencheCampos(produtoEncontrado)
+                    } else {
+                        visibilidade = View.VISIBLE
+                        title = "Alterar produto sem usuário"
+                        preencheCampos(produtoEncontrado)
+                    }
                 }
             }
         }
     }
+
 
     private fun preencheCampos(produto: Produto) {
         url = produto.imagem
@@ -84,6 +98,10 @@ class FormularioProdutoActivity : UsuarioBaseActivity() {
             .setText(produto.descricao)
         binding.activityFormularioProdutoValor
             .setText(produto.valor.toPlainString())
+
+        binding.formularioProdutoTextinputlayoutUsuarioNulo.visibility = visibilidade
+        binding.activityFormularioProdutoUsuarioNulo
+            .setText(produto.usuarioId)
     }
 
     private fun configuraBotaoSalvar() {
@@ -91,7 +109,7 @@ class FormularioProdutoActivity : UsuarioBaseActivity() {
 
         botaoSalvar.setOnClickListener {
             lifecycleScope.launch {
-                usuario.value?.let{ usuario ->
+                usuario.value?.let { usuario ->
                     val produtoNovo = criaProduto(usuario.id)
                     produtoDao.salva(produtoNovo)
                     finish()
@@ -113,6 +131,20 @@ class FormularioProdutoActivity : UsuarioBaseActivity() {
             BigDecimal(valorEmTexto)
         }
 
+        if (usuarioId == "") {
+            val campoUsuarioId = binding.activityFormularioProdutoUsuarioNulo
+            val usuarioIdNovo = campoUsuarioId.text.toString()
+            usuarioDao.autenticaId(usuarioId)?.let {
+                return Produto(
+                    id = produtoId,
+                    nome = nome,
+                    descricao = descricao,
+                    valor = valor,
+                    imagem = url,
+                    usuarioId = usuarioIdNovo
+                )
+            } ?: toast("Usuário inexistente")
+        }
         return Produto(
             id = produtoId,
             nome = nome,

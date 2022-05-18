@@ -17,6 +17,7 @@ class ListaProdutosAdapter(
 ) : RecyclerView.Adapter<ListaProdutosAdapter.ViewHolder>() {
 
     private val produtos = produtos.toMutableList()
+    private var opcao: Boolean = false
 
     inner class ViewHolder(private val binding: ProdutoItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -42,16 +43,22 @@ class ListaProdutosAdapter(
                 .formataParaMoedaBrasileira()
             valor.text = valorEmMoeda
 
-            val visibilidade = if (produto.imagem != null) {
+            val visibilidadeImagem = if (produto.imagem != null) {
                 View.VISIBLE
             } else {
                 View.GONE
             }
 
-            binding.imageView.visibility = visibilidade
+            binding.imageView.visibility = visibilidadeImagem
 
             binding.imageView.tentaCarregarImagem(produto.imagem)
 
+            val visibilidadeUsuario = if (opcao) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+            binding.produtoItemUsuario.visibility = visibilidadeUsuario
             binding.produtoItemUsuario.text = produto.usuarioId
         }
 
@@ -75,6 +82,10 @@ class ListaProdutosAdapter(
         this.produtos.clear()
         this.produtos.addAll(produtos)
         notifyDataSetChanged()
+    }
+
+    fun todosOpcaoMenu() {
+        opcao = true
     }
 
 }

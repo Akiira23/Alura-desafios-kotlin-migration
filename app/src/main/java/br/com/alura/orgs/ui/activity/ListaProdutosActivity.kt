@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class ListaProdutosActivity : UsuarioBaseActivity() {
 
-    private val adapter = ListaProdutosAdapter(context = this)
+    private var adapter = ListaProdutosAdapter(context = this)
     private val binding by lazy {
         ActivityListaProdutosActivityBinding.inflate(layoutInflater)
     }
@@ -70,6 +70,7 @@ class ListaProdutosActivity : UsuarioBaseActivity() {
                             .filterNotNull()
                             .collect { usuario ->
                                 produtoDao.buscaTodos().collect { produtos ->
+                                    adapter.todosOpcaoMenu()
                                     adapter.atualiza(produtos)
                                 }
                             }
