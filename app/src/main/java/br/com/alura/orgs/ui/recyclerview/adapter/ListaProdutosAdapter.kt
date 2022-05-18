@@ -51,6 +51,8 @@ class ListaProdutosAdapter(
             binding.imageView.visibility = visibilidade
 
             binding.imageView.tentaCarregarImagem(produto.imagem)
+
+            binding.produtoItemUsuario.text = produto.usuarioId
         }
 
 

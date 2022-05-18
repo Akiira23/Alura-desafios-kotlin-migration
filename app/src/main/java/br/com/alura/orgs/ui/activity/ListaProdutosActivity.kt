@@ -63,6 +63,19 @@ class ListaProdutosActivity : UsuarioBaseActivity() {
                     finish()
                 }
             }
+            R.id.menu_perfil_usuario_todos_produtos -> {
+                lifecycleScope.launch {
+                    launch {
+                        usuario
+                            .filterNotNull()
+                            .collect { usuario ->
+                                produtoDao.buscaTodos().collect { produtos ->
+                                    adapter.atualiza(produtos)
+                                }
+                            }
+                    }
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }

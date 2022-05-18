@@ -3,6 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menu_perfil_usuario_todos_produtos"
+        android:title="Todos os produtos" />
+    <item
         android:id="@+id/menu_list_produtos_sai_do_app"
         android:icon="@drawable/ic_baseline_perfil"
         android:title="Sair do App"
